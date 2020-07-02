@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import {Link} from 'react-router-dom';
-import {ProductConsumer} from '../Context';
+import {ProductConsumer,ProductProvider} from '../Context';
 import CurrencyFormat from 'react-currency-format';
 import PropTypes from 'prop-types';
-import {handleDetail} from '../Context'; 
+//import {handleDetail} from '../Context'; 
 
 class Product extends Component {
     render() {
@@ -15,19 +15,15 @@ class Product extends Component {
                    <ProductConsumer>
                     
                        {value=>(  
-                                 <div className="img-container p-5" onClick={()=>value.handleDetail(id)
-                                     
-                                     }>
-                                        
+                                 <div className="img-container p-5" onClick={()=>value.handleDetail(id)}>                               
+                                                                             
                                         <Link to="/details">
                                                 <img src={img} alt="produk" className="card-img-top"/>
                                                 
                                         </Link>
                                         <button className="cart-btn" disable={inCart?true:false} 
-                                            onClick={ () => {value.addToCart(id)}
-                                        }
-
-                                        >
+                                            onClick={ ()=>value.addToCart(id)
+                                        }>
 
                                             {inCart ? (
                                                 <p className="text-capitalize mb-0" disable>{""}  in cart</p>
