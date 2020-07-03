@@ -8,7 +8,9 @@ class ProductProvider extends Component {
        // produkku:storeProducts,
         produkku :[],
         detailProduk:detailProduct,
-        cart:[]
+        cart:[],
+        modalOpen: true,
+        modalProduk: detailProduct
     }
         componentDidMount(){
             this.setProdukku();
@@ -36,7 +38,7 @@ class ProductProvider extends Component {
         handleDetail= id =>{
             //console.log('hello detail');
             const produk=this.getItem(id);
-            console.log(produk);
+            //console.log(produk);
             this.setState(()=>{
                 return {detailProduk:produk};
             });
@@ -56,15 +58,47 @@ class ProductProvider extends Component {
             this.setState(()=>{
                 return {
                     produkku:tempProduks,
-                    cart : [...this.state.cart]
+                    cart : [...this.state.cart, produk]
                 };
+            });
+        }
+
+
+        openModal = id =>{
+            const produk= this.getItem(id);
+            this.setState(()=>{
+                return {
+                    modalProduk : produk,
+                    modalOpen : true
+
+
+                }
+
+            });
+
+        }
+
+        closeModal = id =>{
+            this.setState(()=>
+            {
+                return {
+                    modalOpen:false
+                }
+
             });
         }
 
     render() {
         return (
             //<ProductContext.Provider value="Hello Context" >
-            <ProductContext.Provider value={{...this.state, handleDetail:this.handleDetail,addToCart:this.addToCart}}> 
+            <ProductContext.Provider value={
+                {...this.state,
+                 handleDetail:this.handleDetail,
+                 addToCart:this.addToCart, 
+                 openModal: this.openModal, 
+                 closeModal : this.closeModal
+                 }}>
+
                 {this.props.children}
             </ProductContext.Provider>
                

@@ -9,7 +9,7 @@ import ProductList from './component/ProductList';
 import Details from './component/Details';
 import Cart from './component/Cart';
 import Default from './component/Default';
-
+import Modal from './component/Modal';
 
 function App() {
   return (
@@ -22,6 +22,7 @@ function App() {
           <Route path="/cart" component={Cart} />
            <Route  component={Default} />
         </Switch>
+        <Modal/>
         {/* <ProductList/>
         <Details/>
         <Cart/>
