@@ -31,7 +31,7 @@ class Modal extends Component {
                                         </Link>
                                         <Link to="/cart">
                                             <ButtonContainer onClick={()=>closeModal()}>
-                                                go to cart
+                                                Go to cart
                                             </ButtonContainer>
                                         </Link>
 

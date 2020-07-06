@@ -6,11 +6,14 @@ const ProductContext=React.createContext(); // agar bisa mengakses satu state ke
 class ProductProvider extends Component {
     state={
        // produkku:storeProducts,
-        produkku :[],
-        detailProduk:detailProduct,
-        cart:[],
-        modalOpen: true,
-        modalProduk: detailProduct
+        produkku : [],
+        detailProduk : detailProduct,
+        cart : [],
+        modalOpen : false,
+        modalProduk : detailProduct,
+        cartSubtotal : 0,
+        cartTax : 0,
+        cartTotal : 0
     }
         componentDidMount(){
             this.setProdukku();
@@ -88,6 +91,22 @@ class ProductProvider extends Component {
             });
         }
 
+        increase = id => {
+            console.log('increase log');
+        }
+
+        decrease = id => {
+            console.log('deacrease  log');
+        } 
+
+        removeItem = id => {
+            console.log('remove item log');
+        }
+
+        clearCart =()=>{
+            console.log('remove item log');
+        }
+
     render() {
         return (
             //<ProductContext.Provider value="Hello Context" >
@@ -96,7 +115,11 @@ class ProductProvider extends Component {
                  handleDetail:this.handleDetail,
                  addToCart:this.addToCart, 
                  openModal: this.openModal, 
-                 closeModal : this.closeModal
+                 closeModal : this.closeModal,
+                 increase : this.increase,
+                 detailProduct : this.decrease,
+                 removeItem : this.removeItem,
+                 clearCart : this.clearCart
                  }}>
 
                 {this.props.children}

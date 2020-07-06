@@ -1,11 +1,42 @@
 import React, { Component } from 'react';
+import Title from './Title';
+import CartColumns from './CartColumns';
+import EmptyCart from './EmptyCart';
+import {ProductConsumer} from '../Context';
+import CartList from './CartList';
+
 
 class Cart extends Component {
     render() {
         return (
-            <div>
-                <h5> Ini Halaman Cart</h5>
-            </div>
+           <section>
+               <ProductConsumer>
+                   { value => {
+                       const {cart} = value;
+                       
+                       if(cart.length>0){
+                           return(
+                           
+                               <React.Fragment>
+                                     {console.log('Lewat')}
+                                    <Title namaku="your" titleku="cart" />
+                                    <CartColumns/>
+                                    <CartList value={value}/>
+                               </React.Fragment>
+                           )
+                       }else {
+                           return(
+                             <EmptyCart/>
+                            )
+                           
+                       }
+                   }}
+               </ProductConsumer>
+           
+            
+                
+
+           </section>
         );
     }
 }
