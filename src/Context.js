@@ -13,7 +13,9 @@ class ProductProvider extends Component {
         modalProduk : detailProduct,
         cartSubtotal : 0,
         cartTax : 0,
-        cartTotal : 0
+        cartTotal : 0,
+        plusCart : 0,
+        minCart : 0
     }
         componentDidMount(){
             this.setProdukku();
@@ -50,7 +52,7 @@ class ProductProvider extends Component {
     
 
         addToCart = id =>{
-            //console.log('ini ID : ${id}');
+            console.log('ini ID : ${id}');
             let tempProduks =[...this.state.produkku];
             const indek = tempProduks.indexOf(this.getItem(id));
             const produk=tempProduks[indek];
@@ -58,12 +60,24 @@ class ProductProvider extends Component {
             produk.count=1;
             const price=produk.price;
             produk.total=price;
+            //console.log([...this.state.cart,produk,tempProduks]);
             this.setState(()=>{
                 return {
                     produkku:tempProduks,
                     cart : [...this.state.cart, produk]
                 };
-            });
+                
+                
+            },
+                ()=>{
+                    this.addTotals();
+                
+                }
+               
+
+
+            )
+            
         }
 
 
@@ -92,19 +106,115 @@ class ProductProvider extends Component {
         }
 
         increase = id => {
-            console.log('increase log');
+          //  console.log('increase log');
+            let tempCart = [...this.state.cart];
+            const selectedProduk = tempCart.find(item=>item.id===id) ;
+            const index = tempCart.indexOf(selectedProduk);
+            const produk = tempCart[index];
+            produk.count = produk.count+1;
+            produk.total = produk.count * produk.price; 
+
+            this.setState(()=>
+            {
+                return {
+                    cart : [...tempCart]
+                }
+
+            },
+            ()=>{
+                this.addTotals();
+            }
+            
+            );
+
+            
         }
 
         decrease = id => {
-            console.log('deacrease  log');
+            //console.log('deacrease  log');
+            let tempCart = [...this.state.cart];
+            const selectedProduk = tempCart.find(item=>item.id===id) ;
+            const index = tempCart.indexOf(selectedProduk);
+            const produk = tempCart[index];
+            produk.count = produk.count-1;
+            if(produk.count===0){
+                this.removeItem(id);
+                
+            }else {
+                produk.total = produk.count * produk.price; 
+                this.setState(()=>
+                {
+                    return {
+                        cart : [...tempCart]
+                    }
+
+                },
+                ()=>{
+                    this.addTotals();
+                }
+                
+                );
+            }
         } 
 
         removeItem = id => {
             console.log('remove item log');
+            let tempProduk = [...this.state.produkku];
+            let tempCart = [...this.state.cart];
+            
+            tempCart = tempCart.filter(item=>item.id !== id); // unruk mendapat ID barang yg tidak dipilih
+
+            const index = tempProduk.indexOf(this.getItem(id));     // unruk mendapat ID barang yg  dipilih
+            let removeProduk = tempProduk[index];
+            removeProduk.inCart = false;
+            removeProduk.count = 0;
+            removeProduk.total = 0;
+
+            this.setState(()=>{
+                return{
+                    cart :[...tempCart],
+                    produkku : [...tempProduk]
+                };
+                
+            },()=> {
+                this.addTotals();
+            }
+
+            )
         }
 
         clearCart =()=>{
-            console.log('remove item log');
+            this.setState(()=>{
+                return {
+                         cart :[]
+                };
+
+              },()=>{
+                this.setProdukku();
+                this.addTotals()
+               }
+            );
+        }
+
+        addTotals =()=>{
+            console.log('add total');
+            let subtotal= 0;
+            this.state.cart.map(item=>(subtotal+=item.total));
+            const tempTax =subtotal * 0.1;
+            const tax = parseFloat(tempTax.toFixed(2));                        
+            const total = subtotal + tax;
+            this.setState(()=>{
+                return {
+                    cartSubtotal : subtotal,
+                    cartTax : tax,
+                    cartTotal : total
+                }
+            });
+        }
+
+        refCode = ()=>{
+            console.log('Menambah Referral Code');
+
         }
 
     render() {
@@ -117,7 +227,7 @@ class ProductProvider extends Component {
                  openModal: this.openModal, 
                  closeModal : this.closeModal,
                  increase : this.increase,
-                 detailProduct : this.decrease,
+                 decrease : this.decrease,
                  removeItem : this.removeItem,
                  clearCart : this.clearCart
                  }}>

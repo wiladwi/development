@@ -11,6 +11,7 @@ import Cart from './component/Cart';
 import Default from './component/Default';
 import Modal from './component/Modal';
 
+
 function App() {
   return (
 
@@ -52,5 +53,6 @@ function App() {
     
   );
 }
+
 
 export default App;

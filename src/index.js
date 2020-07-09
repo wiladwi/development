@@ -6,6 +6,9 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import {ProductProvider} from './Context';
 
+
+
+
 ReactDOM.render(
   <ProductProvider>
     <Router>
